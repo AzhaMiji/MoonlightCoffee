@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moonlight Coffee — Your Perfect Cup, Any Time of Day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --espresso:#2A1C14;
+    --espresso-soft:#3D2A1D;
+    --cream:#F4E9D8;
+    --cream-deep:#EADFCA;
+    --card:#FFFBF3;
+    --gold:#C9A15C;
+    --gold-soft:#E3CFA0;
+    --rust:#A85C32;
+    --ink-soft:#6B5B4E;
+    --line:rgba(42,28,20,0.12);
+    --shadow: 0 20px 45px rgba(42,28,20,0.14);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+
+  body{
+    font-family:'Work Sans', sans-serif;
+    background:var(--cream);
+    color:var(--espresso);
+    font-weight:400;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3,h4,.display{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    color:var(--espresso);
+    letter-spacing:-0.01em;
+  }
+
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  ul{list-style:none;}
+  button{font-family:inherit; cursor:pointer;}
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  section{position:relative;}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    padding:22px 0;
+    transition: background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+  }
+  header.scrolled{
+    background:rgba(244,233,216,0.92);
+    backdrop-filter: blur(10px);
+    padding:14px 0;
+    box-shadow:0 8px 24px rgba(42,28,20,0.08);
+  }
+  nav.wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .logo{
+    font-family:'Fraunces', serif;
+    font-size:1.5rem;
+    font-weight:600;
+    color:var(--espresso);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .logo svg{width:26px; height:26px; flex-shrink:0;}
+  .nav-links{
+    display:flex;
+    gap:34px;
+    font-size:0.96rem;
+    color:var(--espresso-soft);
+  }
+  .nav-links a{
+    position:relative;
+    padding-bottom:4px;
+  }
+  .nav-links a::after{
+    content:'';
+    position:absolute;
+    left:0; bottom:0;
+    width:0; height:1.5px;
+    background:var(--gold);
+    transition:width 0.3s ease;
+  }
+  .nav-links a:hover::after{width:100%;}
+  .nav-cta{
+    background:var(--espresso);
+    color:var(--cream);
+    padding:11px 24px;
+    border-radius:100px;
+    font-size:0.92rem;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  .nav-cta:hover{background:var(--rust); transform:translateY(-1px);}
+
+  .menu-toggle{display:none; background:none; border:none; flex-direction:column; gap:5px;}
+  .menu-toggle span{width:24px; height:2px; background:var(--espresso); display:block;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:168px 0 110px;
+    position:relative;
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap:50px;
+    align-items:center;
+  }
+  .hero-copy{
+    opacity:0;
+    transform:translateY(18px);
+    animation: rise 0.9s ease forwards 0.15s;
+  }
+  .hero-copy .eyebrow{
+    font-size:0.95rem;
+    color:var(--rust);
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    margin-bottom:18px;
+    display:block;
+  }
+  .hero-copy h1{
+    font-size:clamp(2.6rem, 4.6vw, 3.9rem);
+    line-height:1.08;
+    max-width:11.5ch;
+    margin-bottom:26px;
+  }
+  .hero-copy p{
+    font-size:1.12rem;
+    color:var(--ink-soft);
+    max-width:42ch;
+    margin-bottom:38px;
+  }
+  .hero-actions{display:flex; gap:16px; flex-wrap:wrap;}
+  .btn{
+    padding:15px 30px;
+    border-radius:100px;
+    font-size:0.98rem;
+    font-weight:500;
+    display:inline-block;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease;
+    border:1.5px solid transparent;
+  }
+  .btn-primary{
+    background:var(--espresso);
+    color:var(--cream);
+  }
+  .btn-primary:hover{
+    background:var(--rust);
+    transform:translateY(-2px);
+    box-shadow:0 12px 24px rgba(168,92,50,0.28);
+  }
+  .btn-secondary{
+    border-color:var(--espresso);
+    color:var(--espresso);
+    background:transparent;
+  }
+  .btn-secondary:hover{
+    background:var(--espresso);
+    color:var(--cream);
+    transform:translateY(-2px);
+  }
+
+  .hero-visual{
+    position:relative;
+    opacity:0;
+    animation: rise 1s ease forwards 0.35s;
+  }
+  .hero-visual .blob-glow{
+    position:absolute;
+    width:340px; height:340px;
+    background:radial-gradient(circle, var(--gold-soft) 0%, transparent 70%);
+    top:-60px; right:-60px;
+    filter:blur(10px);
+    z-index:0;
+    opacity:0.7;
+  }
+  .hero-visual img{
+    position:relative;
+    z-index:1;
+    width:100%;
+    height:520px;
+    object-fit:cover;
+    border-radius: 180px 24px 180px 24px;
+    box-shadow:var(--shadow);
+  }
+  .hero-visual .tag{
+    position:absolute;
+    z-index:2;
+    bottom:26px;
+    left:-30px;
+    background:var(--card);
+    padding:16px 22px;
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    max-width:210px;
+    font-size:0.85rem;
+    color:var(--ink-soft);
+  }
+  .hero-visual .tag strong{
+    display:block;
+    font-family:'Fraunces', serif;
+    font-size:1rem;
+    color:var(--espresso);
+    margin-bottom:3px;
+  }
+
+  @keyframes rise{
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section-head{
+    max-width:640px;
+    margin-bottom:56px;
+  }
+  .section-head.center{margin-left:auto; margin-right:auto; text-align:center;}
+  .section-head h2{
+    font-size:clamp(2rem, 3.2vw, 2.7rem);
+    margin-bottom:16px;
+    line-height:1.15;
+  }
+  .section-head p{
+    color:var(--ink-soft);
+    font-size:1.05rem;
+  }
+
+  /* ---------- OUR STORY ---------- */
+  .story{padding:110px 0;}
+  .story .wrap{
+    display:grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap:64px;
+    align-items:center;
+  }
+  .story-img{
+    position:relative;
+  }
+  .story-img img{
+    width:100%;
+    height:460px;
+    object-fit:cover;
+    border-radius:24px 120px 24px 24px;
+    box-shadow:var(--shadow);
+  }
+  .story-copy p{
+    color:var(--ink-soft);
+    font-size:1.06rem;
+    margin-bottom:20px;
+    max-width:52ch;
+  }
+  .story-copy p:first-of-type{
+    font-family:'Fraunces', serif;
+    font-size:1.35rem;
+    color:var(--espresso);
+    font-weight:500;
+    line-height:1.5;
+  }
+
+  /* ---------- DRINKS ---------- */
+  .drinks{padding:110px 0; background:var(--card);}
+  .drink-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:36px;
+  }
+  .drink-card{
+    background:var(--cream);
+    border-radius:24px;
+    overflow:hidden;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    position:relative;
+  }
+  .drink-card:hover{
+    transform:translateY(-6px);
+    box-shadow:var(--shadow);
+  }
+  .drink-img{
+    position:relative;
+    height:230px;
+    overflow:hidden;
+  }
+  .drink-img img{
+    width:100%; height:100%; object-fit:cover;
+    transition: transform 0.6s ease;
+  }
+  .drink-card:hover .drink-img img{transform:scale(1.06);}
+  .price-badge{
+    position:absolute;
+    bottom:-22px; right:22px;
+    background:var(--gold);
+    color:var(--espresso);
+    width:64px; height:64px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:0.95rem;
+    box-shadow:0 10px 20px rgba(201,161,92,0.45);
+    border:3px solid var(--cream);
+  }
+  .drink-body{padding:38px 26px 26px;}
+  .drink-body h3{font-size:1.3rem; margin-bottom:10px;}
+  .drink-body p{color:var(--ink-soft); font-size:0.96rem;}
+
+  /* ---------- MORNINGS (pastries) ---------- */
+  .mornings{padding:110px 0;}
+  .mornings .wrap{position:relative;}
+  .mornings-head{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    align-items:end;
+    margin-bottom:48px;
+  }
+  .mornings-head p{color:var(--ink-soft); font-size:1.02rem;}
+  .pastry-strip{
+    display:flex;
+    gap:24px;
+    overflow-x:auto;
+    padding-bottom:16px;
+    scroll-snap-type:x mandatory;
+  }
+  .pastry-strip::-webkit-scrollbar{height:6px;}
+  .pastry-strip::-webkit-scrollbar-thumb{background:var(--gold-soft); border-radius:10px;}
+  .pastry-card{
+    flex:0 0 300px;
+    scroll-snap-align:start;
+    border-radius:22px;
+    overflow:hidden;
+    position:relative;
+    height:360px;
+  }
+  .pastry-card img{
+    width:100%; height:100%; object-fit:cover;
+  }
+  .pastry-card .caption{
+    position:absolute;
+    left:0; right:0; bottom:0;
+    padding:22px;
+    background:linear-gradient(to top, rgba(42,28,20,0.85), transparent);
+    color:var(--cream);
+  }
+  .pastry-card .caption h4{
+    font-family:'Fraunces', serif;
+    color:var(--cream);
+    font-size:1.15rem;
+    margin-bottom:4px;
+  }
+  .pastry-card .caption span{font-size:0.85rem; opacity:0.85;}
+
+  /* ---------- REVIEWS ---------- */
+  .reviews{padding:110px 0; background:var(--card);}
+  .review-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:30px;
+  }
+  .review-card{
+    background:var(--cream);
+    border-radius:20px;
+    padding:34px 30px;
+  }
+  .review-grid .review-card:nth-child(2){transform:translateY(28px);}
+  .review-card .mark{
+    font-family:'Fraunces', serif;
+    font-size:2.6rem;
+    color:var(--gold);
+    line-height:1;
+    margin-bottom:10px;
+    display:block;
+  }
+  .review-card p{
+    color:var(--espresso-soft);
+    font-size:0.99rem;
+    margin-bottom:22px;
+  }
+  .reviewer{display:flex; align-items:center; gap:12px;}
+  .reviewer-avatar{
+    width:42px; height:42px;
+    border-radius:50%;
+    background:var(--gold-soft);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    color:var(--espresso);
+  }
+  .reviewer strong{display:block; font-size:0.93rem;}
+  .reviewer span{font-size:0.82rem; color:var(--ink-soft);}
+
+  /* ---------- VISIT US ---------- */
+  .visit{
+    padding:110px 0;
+    background:var(--espresso);
+    color:var(--cream);
+  }
+  .visit .wrap{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    align-items:center;
+  }
+  .visit .section-head p{color:rgba(244,233,216,0.72);}
+  .visit .section-head h2{color:var(--cream);}
+  .visit-detail{
+    display:flex;
+    gap:16px;
+    margin-bottom:26px;
+  }
+  .visit-detail .icon{
+    width:42px; height:42px;
+    border-radius:50%;
+    background:rgba(244,233,216,0.1);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .visit-detail h4{
+    font-family:'Fraunces', serif;
+    color:var(--gold-soft);
+    font-size:1.05rem;
+    margin-bottom:4px;
+  }
+  .visit-detail p{color:rgba(244,233,216,0.75); font-size:0.95rem; line-height:1.7;}
+
+  .map-card{
+    height:420px;
+    border-radius:24px;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(201,161,92,0.25), transparent 60%),
+      repeating-linear-gradient(0deg, rgba(244,233,216,0.05) 0 1px, transparent 1px 34px),
+      repeating-linear-gradient(90deg, rgba(244,233,216,0.05) 0 1px, transparent 1px 34px),
+      var(--espresso-soft);
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(244,233,216,0.12);
+  }
+  .map-pin{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:14px;
+  }
+  .map-pin .pin-circle{
+    width:56px; height:56px;
+    border-radius:50%;
+    background:var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 0 10px rgba(201,161,92,0.15);
+  }
+  .map-pin span{font-size:0.9rem; color:rgba(244,233,216,0.75);}
+
+  /* ---------- CONTACT ---------- */
+  .contact{padding:110px 0;}
+  .contact-card{
+    background:var(--card);
+    border-radius:28px;
+    box-shadow:var(--shadow);
+    padding:56px;
+    max-width:720px;
+    margin:0 auto;
+  }
+  .contact-card .section-head{margin-bottom:36px; max-width:100%;}
+  .form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-bottom:20px;
+  }
+  .field{display:flex; flex-direction:column; gap:8px;}
+  .field.full{grid-column:1 / -1;}
+  .field label{font-size:0.86rem; color:var(--ink-soft);}
+  .field input, .field textarea{
+    border:1.5px solid var(--line);
+    background:transparent;
+    border-radius:12px;
+    padding:13px 16px;
+    font-family:inherit;
+    font-size:0.96rem;
+    color:var(--espresso);
+    transition:border-color 0.3s ease;
+  }
+  .field input:focus, .field textarea:focus{
+    outline:none;
+    border-color:var(--gold);
+  }
+  .field textarea{resize:vertical; min-height:120px;}
+  .contact-card .btn-primary{
+    width:100%;
+    border:none;
+    margin-top:6px;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--espresso);
+    color:rgba(244,233,216,0.75);
+    padding:70px 0 26px;
+  }
+  .footer-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr 1fr;
+    gap:40px;
+    padding-bottom:50px;
+    border-bottom:1px solid rgba(244,233,216,0.12);
+  }
+  .footer-logo{
+    font-family:'Fraunces', serif;
+    color:var(--cream);
+    font-size:1.4rem;
+    margin-bottom:14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .footer-logo svg{width:22px; height:22px;}
+  .footer-col h5{
+    font-family:'Fraunces', serif;
+    color:var(--cream);
+    font-size:1rem;
+    margin-bottom:18px;
+    font-weight:500;
+  }
+  .footer-col ul li{margin-bottom:11px; font-size:0.92rem;}
+  .footer-col ul li a:hover{color:var(--gold-soft);}
+  .footer-social{display:flex; gap:12px; margin-top:6px;}
+  .footer-social a{
+    width:38px; height:38px;
+    border-radius:50%;
+    background:rgba(244,233,216,0.08);
+    display:flex; align-items:center; justify-content:center;
+    transition:background 0.3s ease;
+  }
+  .footer-social a:hover{background:var(--gold);}
+  .footer-bottom{
+    padding-top:26px;
+    display:flex;
+    justify-content:space-between;
+    font-size:0.85rem;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    .nav-links{display:none;}
+    .menu-toggle{display:flex;}
+    .hero .wrap, .story .wrap, .visit .wrap{grid-template-columns:1fr;}
+    .hero-visual{order:-1;}
+    .hero-visual img{height:360px;}
+    .story-img img{height:320px;}
+    .drink-grid{grid-template-columns:1fr;}
+    .review-grid{grid-template-columns:1fr;}
+    .review-grid .review-card:nth-child(2){transform:none;}
+    .mornings-head{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .contact-card{padding:36px 24px;}
+    .form-row{grid-template-columns:1fr;}
+    .hero{padding-top:140px;}
+    .hero-visual .tag{left:0;}
+  }
+  @media (max-width:520px){
+    .footer-grid{grid-template-columns:1fr;}
+    .wrap{padding:0 20px;}
+  }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <nav class="wrap">
+    <a href="#top" class="logo">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M4 8h13a3 3 0 0 1 0 6h-1" stroke="#2A1C14" stroke-width="1.6" stroke-linecap="round"/><path d="M4 8v7a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4v-2" stroke="#2A1C14" stroke-width="1.6" stroke-linecap="round"/><path d="M8 3.5c-.6.8-.6 1.4 0 2.2M12 3.5c-.6.8-.6 1.4 0 2.2" stroke="#C9A15C" stroke-width="1.6" stroke-linecap="round"/></svg>
+      Moonlight Coffee
+    </a>
+    <ul class="nav-links">
+      <li><a href="#story">Story</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#mornings">Mornings</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#visit">Visit</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#menu" class="nav-cta">View Menu</a>
+    <button class="menu-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow">Open before sunrise, warm past midnight</span>
+      <h1>Your Perfect Cup, Any Time of Day.</h1>
+      <p>Freshly roasted coffee, homemade pastries, and a cozy place to slow down.</p>
+      <div class="hero-actions">
+        <a href="#menu" class="btn btn-primary">View Our Menu</a>
+        <a href="#visit" class="btn btn-secondary">Visit Us</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="blob-glow"></div>
+      <img src="https://images.pexels.com/photos/18658223/pexels-photo-18658223.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Warm, cozy interior of Moonlight Coffee with wooden tables and soft lighting">
+      <div class="tag"><strong>6:30am – Midnight</strong>Every day of the week</div>
+    </div>
+  </div>
+</section>
+
+<section class="story" id="story">
+  <div class="wrap">
+    <div class="story-img">
+      <img src="https://images.pexels.com/photos/3249240/pexels-photo-3249240.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Guests relaxing inside Moonlight Coffee">
+    </div>
+    <div class="story-copy">
+      <p>Moonlight Coffee started as a single roaster in a garage and a promise: good coffee shouldn't keep banker's hours.</p>
+      <p>We roast in small batches every week, bake our pastries from scratch each morning, and keep the lights on late for the night owls who do their best thinking after dark. Whether you're here for a 6am espresso or a midnight cappuccino, the cups are always warm and the chairs are always free.</p>
+      <p>It's a simple idea, really — a place that feels like home no matter what hour you walk in.</p>
+    </div>
+  </div>
+</section>
+
+<section class="drinks" id="menu">
+  <div class="wrap">
+    <div class="section-head center" style="margin-left:auto;margin-right:auto;">
+      <h2>Popular Drinks</h2>
+      <p>The four cups our regulars order most, made fresh to order every time.</p>
+    </div>
+    <div class="drink-grid">
+
+      <div class="drink-card">
+        <div class="drink-img">
+          <img src="https://images.pexels.com/photos/186860/pexels-photo-186860.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Moonlight Latte with latte art on a wooden table">
+          <div class="price-badge">$5.50</div>
+        </div>
+        <div class="drink-body">
+          <h3>Moonlight Latte</h3>
+          <p>Double espresso poured over steamed milk, finished with a whisper of honey and cinnamon.</p>
+        </div>
+      </div>
+
+      <div class="drink-card">
+        <div class="drink-img">
+          <img src="https://images.pexels.com/photos/1233530/pexels-photo-1233530.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Caramel Cold Brew served in a glass">
+          <div class="price-badge">$5.00</div>
+        </div>
+        <div class="drink-body">
+          <h3>Caramel Cold Brew</h3>
+          <p>Slow-steeped for eighteen hours, poured over ice with a ribbon of house-made caramel.</p>
+        </div>
+      </div>
+
+      <div class="drink-card">
+        <div class="drink-img">
+          <img src="https://images.pexels.com/photos/18394807/pexels-photo-18394807.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Vanilla Cappuccino with latte art">
+          <div class="price-badge">$4.75</div>
+        </div>
+        <div class="drink-body">
+          <h3>Vanilla Cappuccino</h3>
+          <p>Rich espresso and velvety foam, gently sweetened with real Madagascar vanilla.</p>
+        </div>
+      </div>
+
+      <div class="drink-card">
+        <div class="drink-img">
+          <img src="https://images.pexels.com/photos/32149806/pexels-photo-32149806.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Matcha Cloud in a white cup">
+          <div class="price-badge">$5.25</div>
+        </div>
+        <div class="drink-body">
+          <h3>Matcha Cloud</h3>
+          <p>Ceremonial-grade matcha whisked with oat milk into a soft, jade-green cloud.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="mornings" id="mornings">
+  <div class="wrap">
+    <div class="mornings-head">
+      <div class="section-head" style="margin-bottom:0;">
+        <h2>Fresh Every Morning</h2>
+      </div>
+      <p>Our bakers arrive before dawn so the case is always full — flaky croissants, sourdough loaves, and a rotating tray of seasonal treats, baked in-house from scratch.</p>
+    </div>
+    <div class="pastry-strip">
+      <div class="pastry-card">
+        <img src="https://images.pexels.com/photos/2000498/pexels-photo-2000498.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Freshly baked croissants in a basket">
+        <div class="caption"><h4>Butter Croissants</h4><span>Laminated daily, baked to order</span></div>
+      </div>
+      <div class="pastry-card">
+        <img src="https://images.pexels.com/photos/20372620/pexels-photo-20372620.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Croissants and cookies in a cafe window">
+        <div class="caption"><h4>Window Case Favorites</h4><span>Cookies, scones & seasonal bakes</span></div>
+      </div>
+      <div class="pastry-card">
+        <img src="https://images.pexels.com/photos/19409424/pexels-photo-19409424.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Artisan bread display">
+        <div class="caption"><h4>House Sourdough</h4><span>Slow-fermented, sliced to order</span></div>
+      </div>
+      <div class="pastry-card">
+        <img src="https://images.pexels.com/photos/15882841/pexels-photo-15882841.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Pastry case with assorted baked goods">
+        <div class="caption"><h4>Sweet Tray</h4><span>A new treat featured each week</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reviews" id="reviews">
+  <div class="wrap">
+    <div class="section-head center" style="margin-left:auto;margin-right:auto;">
+      <h2>Customer Reviews</h2>
+      <p>A few words from the regulars who've made Moonlight part of their routine.</p>
+    </div>
+    <div class="review-grid">
+      <div class="review-card">
+        <span class="mark">"</span>
+        <p>I work odd hours, and this is the only café near me that's actually open when I need it. The Moonlight Latte has become my whole personality at this point.</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">R</div>
+          <div><strong>Renee K.</strong><span>Regular since 2023</span></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <span class="mark">"</span>
+        <p>The croissants alone are worth the drive. Add in the cold brew and the fact that the staff remembers my order, and I'm basically here every Saturday.</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">D</div>
+          <div><strong>Daniel M.</strong><span>Neighborhood local</span></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <span class="mark">"</span>
+        <p>Quiet in the mornings, lively in the evenings — it somehow works as both my study spot and my after-dinner hangout with friends.</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">P</div>
+          <div><strong>Priya S.</strong><span>Grad student</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="visit" id="visit">
+  <div class="wrap">
+    <div>
+      <div class="section-head">
+        <h2>Visit Us</h2>
+        <p>Drop by any time — there's always a seat and a fresh pot brewing.</p>
+      </div>
+
+      <div class="visit-detail">
+        <div class="icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Z" stroke="#E3CFA0" stroke-width="1.6"/><circle cx="12" cy="9.5" r="2.4" stroke="#E3CFA0" stroke-width="1.6"/></svg>
+        </div>
+        <div>
+          <h4>Address</h4>
+          <p>214 Elm Street, Portland, OR 97201</p>
+        </div>
+      </div>
+
+      <div class="visit-detail">
+        <div class="icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="#E3CFA0" stroke-width="1.6"/><path d="M12 7.5V12l3 2" stroke="#E3CFA0" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <h4>Opening Hours</h4>
+          <p>Mon – Fri: 6:30am – 8:00pm<br>Sat – Sun: 7:00am – 9:00pm</p>
+        </div>
+      </div>
+
+      <div class="visit-detail">
+        <div class="icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 5h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 14l5 2v4a2 2 0 0 1-2 2C9.5 22 2 14.5 2 7a2 2 0 0 1 2-2Z" stroke="#E3CFA0" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <h4>Phone</h4>
+          <p>(503) 555-0148</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-card">
+      <div class="map-pin">
+        <div class="pin-circle">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Z" stroke="#2A1C14" stroke-width="1.8"/><circle cx="12" cy="9.5" r="2.2" stroke="#2A1C14" stroke-width="1.8"/></svg>
+        </div>
+        <span>214 Elm Street, Portland, OR</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="contact-card">
+      <div class="section-head">
+        <h2>Contact</h2>
+        <p>Questions, catering requests, or just want to say hi? Send us a note.</p>
+      </div>
+      <form onsubmit="event.preventDefault(); this.querySelector('.btn-primary').textContent='Message Sent'; this.querySelector('.btn-primary').disabled=true;">
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Your name" required>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="you@email.com" required>
+          </div>
+        </div>
+        <div class="field full" style="margin-bottom:24px;">
+          <label for="message">Message</label>
+          <textarea id="message" placeholder="How can we help?" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 8h13a3 3 0 0 1 0 6h-1" stroke="#F4E9D8" stroke-width="1.6" stroke-linecap="round"/><path d="M4 8v7a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4v-2" stroke="#F4E9D8" stroke-width="1.6" stroke-linecap="round"/></svg>
+          Moonlight Coffee
+        </div>
+        <p style="max-width:34ch; font-size:0.92rem;">A warm cup and a quiet corner, whenever you need one.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="#F4E9D8" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="#F4E9D8" stroke-width="1.5"/><circle cx="17.2" cy="6.8" r="1" fill="#F4E9D8"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 9h2.5V6H14c-1.9 0-3 1.3-3 3v2H9v3h2v7h3v-7h2.2l.5-3H14V9.4c0-.3.1-.4.4-.4Z" stroke="#F4E9D8" stroke-width="1.3" stroke-linejoin="round"/></svg></a>
+          <a href="#" aria-label="Twitter"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 6.5c-.7.3-1.4.6-2.2.7a4 4 0 0 0 1.7-2.2 7.9 7.9 0 0 1-2.5 1 3.9 3.9 0 0 0-6.7 3.6A11.2 11.2 0 0 1 3.2 5.4a4 4 0 0 0 1.2 5.3 4 4 0 0 1-1.8-.5v.1a4 4 0 0 0 3.2 3.9 4 4 0 0 1-1.8.1 4 4 0 0 0 3.7 2.8A8 8 0 0 1 2 18.6a11.2 11.2 0 0 0 6 1.8c7.3 0 11.3-6 11.3-11.3v-.5A8 8 0 0 0 21 6.5Z" stroke="#F4E9D8" stroke-width="1.3" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Explore</h5>
+        <ul>
+          <li><a href="#story">Our Story</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#mornings">Mornings</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Visit</h5>
+        <ul>
+          <li><a href="#visit">Directions</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+          <li><a href="#top">Catering</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Hours</h5>
+        <ul>
+          <li>Mon – Fri: 6:30am – 8pm</li>
+          <li>Sat – Sun: 7am – 9pm</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Moonlight Coffee. All rights reserved.</span>
+      <span>214 Elm Street, Portland, OR</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+</script>
+
+</body>
+</html>
